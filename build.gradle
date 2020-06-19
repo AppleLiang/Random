@@ -1,0 +1,53 @@
+plugins {
+  id 'java'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+  mavenCentral()
+}
+
+ext {
+  jacksonVersion = "2.9.8"
+  libraries = [
+      upgradedJackson: [
+          "com.fasterxml.jackson.core:jackson-annotations:$project.ext.jacksonVersion",
+          "com.fasterxml.jackson.core:jackson-databind:$project.ext.jacksonVersion",
+          "com.fasterxml.jackson.dataformat:jackson-dataformat-cbor:$project.ext.jacksonVersion",
+          "com.fasterxml.jackson.dataformat:jackson-dataformat-smile:$project.ext.jacksonVersion",
+          "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:$project.ext.jacksonVersion",
+          "com.fasterxml.jackson.datatype:jackson-datatype-guava:$project.ext.jacksonVersion",
+          "com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$project.ext.jacksonVersion",
+          "com.fasterxml.jackson.datatype:jackson-datatype-joda:$project.ext.jacksonVersion",
+          "com.fasterxml.jackson.datatype:jackson-datatype-json-org:$project.ext.jacksonVersion",
+          "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$project.ext.jacksonVersion",
+          "com.fasterxml.jackson.jaxrs:jackson-jaxrs-base:$project.ext.jacksonVersion",
+          "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:$project.ext.jacksonVersion",
+          "com.fasterxml.jackson.module:jackson-module-afterburner:$project.ext.jacksonVersion",
+          "com.fasterxml.jackson.module:jackson-module-jaxb-annotations:$project.ext.jacksonVersion",
+          "com.fasterxml.jackson.module:jackson-module-parameter-names:$project.ext.jacksonVersion"
+      ],
+      upgradedJacksonForAnnotationProcessor: [
+          "com.fasterxml.jackson.core:jackson-databind:$project.ext.jacksonVersion",
+          "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:$project.ext.jacksonVersion",
+      ],
+      other: [
+          "com.google.guava:guava:28.2-jre",
+      ],
+      upgradedLombok: "org.projectlombok:lombok:1.18.12",
+  ] as Map<String, Object>
+}
+
+dependencies {
+  testCompile group: 'junit', name: 'junit', version: '4.12'
+
+  annotationProcessor libraries.upgradedLombok
+  compileOnly libraries.upgradedLombok
+  annotationProcessor libraries.upgradedJacksonForAnnotationProcessor
+  implementation libraries.upgradedJackson
+  implementation libraries.other
+  compile "com.google.inject:guice:4.1.0"
+  compile "com.google.inject.extensions:guice-multibindings:4.1.0"
+}
